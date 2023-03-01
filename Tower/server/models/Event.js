@@ -20,7 +20,7 @@ export const EventSchema = new Schema({
 
 
 
-}, { timestamps: true, toJSON: { virtuals: true } })
+}, defaultSchemaOptions)
 
 
 EventSchema.virtual('creator', {
