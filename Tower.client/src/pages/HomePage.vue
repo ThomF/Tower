@@ -1,44 +1,55 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 bg-white rounded elevation-3">
-      <img
-        src="https://bcw.blob.core.windows.net/public/img/8600856373152463"
-        alt="CodeWorks Logo"
-        class="rounded-circle"
-      >
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 ">
+        <div class="bg-banner"></div>
+        <!-- <img class="image-banner img-fluid"
+          src="https://images.unsplash.com/photo-1519750157634-b6d493a0f77c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+          alt="Image of seating"> -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3" v-for="e in events">
+        <Event :event="e" />
+
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Pop from '../utils/Pop';
+import { eventsService } from '../services/EventsService.js'
+import { onMounted, computed } from 'vue';
+import { AppState } from '../AppState';
+import Event from '../components/Event.vue'
+
 export default {
   setup() {
-    return {}
-  }
+    async function getAllEvents() {
+      try {
+        await eventsService.getAllEvents()
+      } catch (error) {
+        Pop.error(error, 'Getting all Events')
+      }
+    }
+
+    onMounted(() => {
+      getAllEvents()
+    })
+    return {
+      events: computed(() => AppState.events),
+
+      account: computed(() => AppState.account)
+
+    };
+  },
+  components: { Event }
 }
 </script>
 
 <style scoped lang="scss">
-.home {
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
-
-  .home-card {
-    width: 50vw;
-
-    >img {
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
-  }
-}
+// .bg-banner {
+//   background-image: src('https://images.unsplash.com/photo-1519750157634-b6d493a0f77c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80');
+// }
 </style>
