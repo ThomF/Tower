@@ -8,6 +8,18 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-12">
+        <div class="bg-primary rounded justify-content-around">
+          <button @click="changeFilter('')" class="btn btn-outline">All</button>
+          <button @click="changeFilter('convention')" class="btn btn-outline">Convention</button>
+          <button @click="changeFilter('concert')" class="btn btn-outline">Concert</button>
+          <button @click="changeFilter('sport')" class="btn btn-outline">sport</button>
+          <button @click="changeFilter('digital')" class="btn btn-outline">Digital</button>
+
+        </div>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-3" v-for="e in events">
         <Event :event="e" />
 
@@ -19,12 +31,13 @@
 <script>
 import Pop from '../utils/Pop';
 import { eventsService } from '../services/EventsService.js'
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import { AppState } from '../AppState';
 import Event from '../components/Event.vue'
 
 export default {
   setup() {
+    const filterCategory = ref('')
     async function getAllEvents() {
       try {
         await eventsService.getAllEvents()
@@ -37,9 +50,19 @@ export default {
       getAllEvents()
     })
     return {
-      events: computed(() => AppState.events),
+      events: computed(() => {
+        if (!filterCategory.value) {
+          return AppState.events
+        }
+        else {
+          return AppState.events.filter(e => e.type == filterCategory.value)
+        }
+      }),
+      account: computed(() => AppState.account),
 
-      account: computed(() => AppState.account)
+      changeFilter(category) {
+        filterCategory.value = category
+      }
 
     };
   },
