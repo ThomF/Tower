@@ -9,7 +9,7 @@ export const TicketSchema = new Schema({
 
 TicketSchema.virtual('profile', {
     ref: 'Account',
-    localField: 'creatorId',
+    localField: 'accountId',
     foreignField: '_id',
     justOne: true
 })

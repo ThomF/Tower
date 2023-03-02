@@ -7,6 +7,7 @@ export class TicketController extends BaseController {
     constructor() {
         super('api/tickets')
         this.router
+            .use(Auth0Provider.getAuthorizedUserInfo)
             .post('', this.createATicket)
     }
 

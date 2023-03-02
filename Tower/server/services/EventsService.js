@@ -21,7 +21,7 @@ class EventsService {
     async createEvent(eventData) {
         const event = await dbContext.Events.create(eventData)
 
-        await event.populate('creator', 'name picture')
+        await event.populate('creator tickets', 'name picture')
 
         return event
     }

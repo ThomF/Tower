@@ -16,15 +16,17 @@ class TicketsService {
             throw new Forbidden('Event Is Canceled')
         }
 
-        const ticket = await dbContext.Ticket.create(ticketData)
+        const ticket = await dbContext.Tickets.create(ticketData)
         await ticket.populate('profile', 'name picture')
         await ticket.populate({
             path: 'event',
             populate: {
-                path: 'creator Ticket',
+                path: 'creator tickets',
                 select: 'name picture'
             }
         })
+        let capacity = event.capacity
+        capacity--
         return ticket
     }
 
