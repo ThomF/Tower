@@ -12,11 +12,18 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
         <li>
-          <router-link :to="{ name: 'Account' }" class="btn text-success lighten-30 selectable text-uppercase">
-            Account
-          </router-link>
+
+        </li>
+        <li>
+          <button v-if="account.id" class="btn btn-tower ms-2" data-bs-toggle="modal" data-bs-target="#eventModal">
+            <i class="mdi mdi-plus-box"></i>
+            Add New Event
+          </button>
         </li>
       </ul>
+      <router-link :to="{ name: 'Account' }" class="btn text-success lighten-30 selectable text-uppercase">
+        Account
+      </router-link>
       <!-- LOGIN COMPONENT HERE -->
       <Login />
     </div>
@@ -24,10 +31,15 @@
 </template>
 
 <script>
+
+import { computed } from 'vue';
+import { AppState } from '../AppState';
 import Login from './Login.vue'
 export default {
   setup() {
-    return {}
+    return {
+      account: computed(() => AppState.account),
+    }
   },
   components: { Login }
 }
@@ -36,6 +48,14 @@ export default {
 <style scoped>
 a:hover {
   text-decoration: none;
+}
+
+.btn-tower {
+  background: #79E7AB;
+}
+
+.btn-tower:hover {
+  background: #00e266;
 }
 
 .nav-link {

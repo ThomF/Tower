@@ -5,14 +5,17 @@
   <main class="bg-dark">
     <router-view />
   </main>
-  <!-- <footer class="bg-dark text-light">
-    Made with 💖 by CodeWorks
-  </footer> -->
+  <footer class="bg-dark text-light">
+    <Modal id="eventModal">
+      <EventForm />
+    </Modal>
+  </footer>
 </template>
 
 <script>
 import { computed } from 'vue'
 import { AppState } from './AppState'
+import Modal from './components/Modal.vue'
 import Navbar from './components/Navbar.vue'
 
 export default {
@@ -21,7 +24,7 @@ export default {
       appState: computed(() => AppState)
     }
   },
-  components: { Navbar }
+  components: { Navbar, Modal }
 }
 </script>
 <style lang="scss">
