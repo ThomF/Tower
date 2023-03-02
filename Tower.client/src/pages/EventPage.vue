@@ -61,10 +61,20 @@ export default {
       }
     }
 
+    async function getTicketHolders() {
+      try {
+        const eventId = route.params.eventId
+        await ticketService.getTicketHolders(eventId)
+      } catch (error) {
+        logger.error(error)
+        Pop.error(message.error)
+      }
+    }
 
     watchEffect(() => {
       if (route.params.eventId) {
-        getEventById()
+        getEventById();
+        getTicketHolders();
       }
     })
 
@@ -72,7 +82,7 @@ export default {
       event: computed(() => AppState.event),
       ticket: computed(() => AppState.tickets),
       account: computed(() => AppState.account),
-
+      comments: computed(() => AppState.comments),
 
 
       async createTicket() {

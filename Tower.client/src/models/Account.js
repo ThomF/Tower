@@ -7,3 +7,10 @@ export class Account {
     // TODO add additional properties if needed
   }
 }
+
+export class Profile extends Account {
+  constructor(data) {
+    super(data)
+    this.email = data.email
+  }
+}
