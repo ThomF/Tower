@@ -10,11 +10,12 @@
           <h1>{{ event.name }}</h1>
           <p>{{ event.description }}</p>
           <div class="row">
-            <div class="col-10">
-              <b>{{ event.capacity }}</b>
+            <div class="col-10 d-flex">
+              <h6>Capacity</h6>
+              <b class="ms-2">{{ event.capacity }}</b>
             </div>
             <div class="col-2">
-              <button @click="createTicket()" :disable="event.isCanceled"
+              <button @click="createTicket()" v-if="!myEvents" :disabled="event.isCanceled"
                 class="btn btn-warning mdi mdi-human text-center">
                 Attend
               </button>
@@ -83,6 +84,7 @@ export default {
       ticket: computed(() => AppState.tickets),
       account: computed(() => AppState.account),
       comments: computed(() => AppState.comments),
+      myEvents: computed(() => AppState.myEvents),
 
 
       async createTicket() {
