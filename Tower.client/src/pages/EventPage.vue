@@ -1,6 +1,7 @@
 <template>
   <div v-if="event">
     <div class="container-fluid">
+
       <div class="row d-flex backgroundCover">
         <div class="col-4">
           <img class="img-fluid" :src="event.coverImg" alt="">
@@ -13,10 +14,19 @@
               <b>{{ event.capacity }}</b>
             </div>
             <div class="col-2">
-              <button class="btn btn-warning mdi mdi-human text-center">
+              <button @click="createTicket()" :disable="event.isCanceled"
+                class="btn btn-warning mdi mdi-human text-center">
                 Attend
               </button>
             </div>
+          </div>
+        </div>
+      </div>
+      <!-- NOTE images of people attending -->
+      <div class="row">
+        <div class="col-12">
+          <div v-for="t in ticket">
+            <img class="img-fluid" :src="t.picture" :alt="t.name" :title="t.name">
           </div>
         </div>
       </div>
@@ -29,7 +39,10 @@
 import { watchEffect, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { AppState } from '../AppState';
+import { Account } from '../models/Account';
 import { eventsService } from '../services/EventsService';
+import { ticketService } from '../services/TicketService';
+import { logger } from '../utils/Logger';
 import Pop from '../utils/Pop';
 
 export default {
@@ -56,7 +69,22 @@ export default {
     })
 
     return {
-      event: computed(() => AppState.event)
+      event: computed(() => AppState.event),
+      ticket: computed(() => AppState.tickets),
+      account: computed(() => AppState.account),
+
+
+
+      async createTicket() {
+        try {
+          await ticketService.createTicket({ eventId: route.params.eventId })
+        } catch (error) {
+          logger.error(error)
+          Pop.error(error.message)
+        }
+      }
+
+
     }
   }
 }

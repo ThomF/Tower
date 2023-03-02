@@ -20,6 +20,12 @@
             Add New Event
           </button>
         </li>
+        <li>
+          <button @click="cancelEvent(event.id)"
+            v-if="account.id && route.name == 'Event' && event?.creatorId == account.id"
+            class="btn btn-danger ms-2">Cancel
+            Event</button>
+        </li>
       </ul>
       <router-link :to="{ name: 'Account' }" class="btn text-success lighten-30 selectable text-uppercase">
         Account
@@ -31,14 +37,31 @@
 </template>
 
 <script>
-
+import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 import { AppState } from '../AppState';
 import Login from './Login.vue'
+import { logger } from '../utils/Logger';
+import Pop from '../utils/Pop';
+import { eventsService } from '../services/EventsService';
 export default {
   setup() {
+    const route = useRoute()
     return {
+      route,
       account: computed(() => AppState.account),
+      event: computed(() => AppState.event),
+
+      async cancelEvent(eventId) {
+        try {
+          if (await Pop.confirm('You cant undo this cancel.')) {
+            await eventsService.cancelEvent(eventId)
+          }
+        } catch (error) {
+          logger.error(error)
+          Pop.error(error.message)
+        }
+      }
     }
   },
   components: { Login }
