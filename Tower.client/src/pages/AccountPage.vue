@@ -8,11 +8,24 @@
     <div class="row">
       <div class="col-12">
         <h1>My Events</h1>
-        <div v-for="t in myTicket">
-          <Event :event="t" />
-        </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-3" v-for="t in myTicket">
+        <router-link class="text-dark selectable" :to="{ name: 'Event', params: { eventId: t.eventId } }">
+          <div class="bg-dark border rounded mt-3">
+            <img :src="t.event.coverImg" alt="{{ t.event.name }}">
+            <div class="card-body">
+              <h6>{{ t.event.name }}</h6>
+              <p>{{ t.event.description }}</p>
+              <span> Capacity {{ t.event.capacity }}</span>
+            </div>
+            <div v-if="t.event.isCanceled" class="bg-danger rounded">CANCELED</div>
+          </div>
+        </router-link>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -20,6 +33,7 @@
 import { computed, onMounted } from 'vue'
 import { AppState } from '../AppState'
 import { Event } from '../models/Event'
+// import { ticketEvent } from '../models/Event'
 import { eventsService } from '../services/EventsService'
 import Pop from '../utils/Pop'
 export default {

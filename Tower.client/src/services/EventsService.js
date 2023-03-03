@@ -21,8 +21,9 @@ class EventsService {
     }
     async getMyTickets() {
         const res = await api.get('account/tickets')
-        console.log("TICKETS_TICKETS_TICKETS", res.data)
-        AppState.myTicket = res.data.map(t => new ticketEvent(t))
+        // console.log("TICKETS_TICKETS_TICKETS", res.data)
+        // AppState.myTicket = res.data.map(t => new ticketEvent(t))
+        AppState.myTicket = res.data
 
         console.log("APPSTATE TICKETS", AppState.myTicket);
     }
