@@ -26,7 +26,8 @@
           <div class="row">
             <div class="col-10 d-flex">
               <h6>Capacity</h6>
-              <b class="ms-2">{{ event.capacity }}</b>
+              <b class="ms-2" :v-if="event.capacity > 0">{{ event.capacity }}</b>
+              <b class="ms-2" :v-else="event.capacity <= 0">SOLD OUT</b>
             </div>
             <div class="col-2">
               <button v-if="!myTicket || event.isCanceled == true" @click="createTicket()"
@@ -73,6 +74,11 @@
         <div v-for="c in comments" class="col-12">
           <div class="card my-2">
             <div class="card-body elevation-5 text-dark d-flex">
+              <div class="col-1 justify-content-end">
+                <button @click="deleteComment(c.id)" v-if="creatorId == commentId" class="btn btn-danger-outline">
+                  <h5 class="mdi mdi-delete-variant"></h5>
+                </button>
+              </div>
               <div class="row">
                 <div class="col-2">
                   <img :src="c.picture" alt="" :title="c.name">
@@ -191,7 +197,17 @@ export default {
           logger.error(error)
           Pop.error(error.message)
         }
-      }
+      },
+      async deleteComment(commentId) {
+        try {
+          if (await Pop.confirm()) {
+            await commentService.delete(commentId)
+            Pop.success('Deleted Comment')
+          }
+        } catch (error) {
+          Pop.error(error, 'failed to delete')
+        }
+      },
     }
   }
 }
