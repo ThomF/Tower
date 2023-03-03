@@ -22,7 +22,7 @@
         </li>
         <li>
           <button @click="cancelEvent(event.id)"
-            v-if="account.id && route.name == 'Event' && event?.creatorId == account.id"
+            v-if="account.id && route.name == 'Event' && event?.creatorId == account.id && !event.isCanceled"
             class="btn btn-danger ms-2">Cancel
             Event</button>
         </li>

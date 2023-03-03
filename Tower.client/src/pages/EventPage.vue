@@ -2,7 +2,7 @@
   <div v-if="event">
     <div class="container-fluid">
       <!-- FIXME DATE DATE DATE -->
-      <div class="row" :v-if="event.isCanceled">
+      <div class="row" v-if="event.isCanceled">
         <div class="div">
           <h1 class="bg-danger">CANCELED</h1>
         </div>
@@ -26,8 +26,8 @@
           <div class="row">
             <div class="col-10 d-flex">
               <h6>Capacity</h6>
-              <b class="ms-2" :v-if="event.capacity > 0">{{ event.capacity }}</b>
-              <b class="ms-2" :v-else="event.capacity <= 0">SOLD OUT</b>
+              <b class="ms-2" v-if="event.capacity > 0">{{ event.capacity }}</b>
+              <b class="ms-2" v-else="event.capacity <= 0">SOLD OUT</b>
             </div>
             <div class="col-2">
               <button v-if="!myTicket || event.isCanceled == true" @click="createTicket()"
@@ -75,7 +75,7 @@
           <div class="card my-2">
             <div class="card-body elevation-5 text-dark d-flex">
               <div class="col-1 justify-content-end">
-                <button @click="deleteComment(c.id)" v-if="creatorId == commentId" class="btn btn-danger-outline">
+                <button @click="deleteComment(c.id)" v-if="creatorId == c.id" class="btn btn-danger-outline">
                   <h5 class="mdi mdi-delete-variant"></h5>
                 </button>
               </div>
