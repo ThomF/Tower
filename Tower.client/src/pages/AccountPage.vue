@@ -8,8 +8,8 @@
     <div class="row">
       <div class="col-12">
         <h1>My Events</h1>
-        <div v-for="t in tickets">
-          <Event />
+        <div v-for="t in myTicket">
+          <Event :event="t" />
         </div>
       </div>
     </div>
@@ -37,7 +37,7 @@ export default {
     });
     return {
       account: computed(() => AppState.account),
-      tickets: computed(() => AppState.tickets)
+      myTicket: computed(() => AppState.myTicket)
     };
   },
   components: { Event }

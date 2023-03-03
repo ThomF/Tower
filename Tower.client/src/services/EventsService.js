@@ -24,7 +24,7 @@ class EventsService {
         console.log("TICKETS_TICKETS_TICKETS", res.data)
         AppState.myTicket = res.data.map(t => new ticketEvent(t))
 
-        console.log("APPSTATE TICKETS", AppState.tickets);
+        console.log("APPSTATE TICKETS", AppState.myTicket);
     }
 
     async getEventById(eventId) {
