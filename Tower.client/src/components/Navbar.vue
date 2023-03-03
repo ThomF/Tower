@@ -16,7 +16,7 @@
         </li>
         <li>
           <button v-if="account.id" class="btn btn-tower ms-2" data-bs-toggle="modal" data-bs-target="#eventModal">
-            <i class="mdi mdi-plus-box"></i>
+            <i class="mdi mdi-calendar-edit"></i>
             Add New Event
           </button>
         </li>

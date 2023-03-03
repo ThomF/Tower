@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div v-if="events" class="container-fluid">
     <div class="row">
       <div class="col-12 home-banner">
         <img class=" home-banner"
@@ -25,6 +25,12 @@
 
       </div>
     </div>
+  </div>
+  <div v-else class="text-light text-center p-5">
+    <h1 class="display-1">
+      <i class="mdi mdi-music mdi-spin"></i><i class="mdi mdi-earth mdi-spin"></i><i
+        class="mdi mdi-microphone mdi-spin"></i><i class="mdi mdi-pinwheel mdi-spin"></i>
+    </h1>
   </div>
 </template>
   

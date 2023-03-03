@@ -17,6 +17,9 @@ class EventsService {
         console.log('EVENTS', events);
         AppState.events = events
     }
+    async getMyTickets() {
+        return AppState.myTicket
+    }
 
     async getEventById(eventId) {
         AppState.event = null

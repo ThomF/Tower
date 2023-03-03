@@ -17,7 +17,15 @@ class TicketService {
         AppState.tickets.push(new Ticket(res.data))
         AppState.myTicket.push(new Event(res.data.event))
         AppState.event.capacity--
+    }
 
+    async removeTicket(myTicket) {
+        const res = await api.delete(`api/tickets/${myTicket}`)
+        logger.log('[Cancelling myTicket]', res.data)
+        const ticketIndex = AppState.myTicket.findIndex(c => c.eventId == myTicket)
+        if (eventId !== -1) {
+            AppState.myTicket.splice(ticketIndex, 1)
+        }
     }
 
 }

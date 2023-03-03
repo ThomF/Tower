@@ -1,13 +1,18 @@
 <template>
   <div v-if="event">
     <div class="container-fluid">
-
+      <!-- FIXME DATE DATE DATE -->
+      <!-- <div class="row">
+        <div class="div">
+          <h1 class="bg-danger" :v-if="event.isCanceled">CANCELED</h1>
+        </div>
+      </div> -->
       <div class="row d-flex backgroundCover">
         <div class="col-4">
           <img class="img-fluid" :src="event.coverImg" alt="">
         </div>
         <div class="col-8">
-          <h1>{{ event.name }}</h1>
+          <h1>{{ event.name }} -- {{ event.type }}</h1>
           <p>{{ event.description }}</p>
           <div class="row">
             <div class="col-10 d-flex">
@@ -19,7 +24,8 @@
                 class="btn btn-warning mdi mdi-human text-center">
                 Attend
               </button>
-              <button v-if="myTicket" @click="createTicket()" class="btn btn-warning mdi mdi-human text-center">
+              <button v-if="myTicket" @click="removeTicket(myTicket.creatorId)"
+                class="btn btn-warning mdi mdi-human text-center">
                 Leave
               </button>
             </div>
@@ -34,26 +40,63 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col4"></div>
+        <div class="col4">
+          <h1>Comments</h1>
+          <form v-if="account.id" @submit.prevent="createComment()">
+            <div class="form-group">
+              <label for="body">Share your thoughts!</label>
+              <textarea v-model="editable.body" required class="form-control" id="body" rows="3"></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-dark">Comment</button>
+            </div>
+          </form>
+        </div>
+        <div class="col4"></div>
+      </div>
+      <div class="row">
+        <div class="col-2"></div>
+        <div v-for="c in comments" class="col-8">
+          <div class="card my-2">
+            <div class="card-body elevation-5 text-dark d-flex">
+              <p>Comment</p>
+              <img :src="c.picture" alt="">
+              <p> {{ c.body }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
+  </div>
+  <div v-else class="text-light text-center p-5">
+    <h1 class="display-1">
+      <i class="mdi mdi-music mdi-spin"></i><i class="mdi mdi-earth mdi-spin"></i><i
+        class="mdi mdi-microphone mdi-spin"></i><i class="mdi mdi-pinwheel mdi-spin"></i>
+    </h1>
   </div>
 </template>
 
 <script>
-import { watchEffect, computed } from 'vue';
+import { watchEffect, computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { AppState } from '../AppState';
 import { Account } from '../models/Account';
 import { eventsService } from '../services/EventsService';
 import { ticketService } from '../services/TicketService';
+import { commentService } from '../services/CommentService';
 import { logger } from '../utils/Logger';
 import Pop from '../utils/Pop';
 
 export default {
+
   setup() {
 
     const route = useRoute()
     const router = useRouter()
+    const editable = ref({})
 
     async function getEventById() {
       try {
@@ -75,14 +118,26 @@ export default {
       }
     }
 
+    async function getCommentsByEvent() {
+      try {
+        const eventId = route.params.eventId
+        await commentService.getCommentsByEvent(eventId)
+      } catch (error) {
+        logger.error(error)
+        Pop.error(error.message)
+      }
+    }
+
     watchEffect(() => {
       if (route.params.eventId) {
         getEventById();
         getTicketHolders();
+        getCommentsByEvent();
       }
     })
 
     return {
+      editable,
       route,
       event: computed(() => AppState.event),
       ticket: computed(() => AppState.tickets),
@@ -98,12 +153,38 @@ export default {
           logger.error(error)
           Pop.error(error.message)
         }
+      },
+      async removeTicket(myTicket) {
+        try {
+          if (await Pop.confirm('Are You Sure You Want To Cancel Your Ticket?')) {
+            await ticketService.removeTicket(myTicket)
+          }
+        } catch (error) {
+          Pop.error(error.message)
+          logger.log(error)
+        }
+      },
+
+      async createComment() {
+        try {
+          const commentData = editable.value
+          commentData.eventId = route.params.eventId
+          await commentService.createComment(commentData)
+        } catch (error) {
+          logger.error(error)
+          Pop.error(error.message)
+        }
       }
-
-
     }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.frosted {
+  box-shadow: 0 0 5px 0;
+  background: inherit;
+  backdrop-filter: blur(80px);
+  /* margin: 100px; */
+}
+</style>
