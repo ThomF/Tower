@@ -29,7 +29,7 @@ export default {
         await eventsService.getMyTickets();
       }
       catch (error) {
-        Pop.error(error, "what the?!");
+        Pop.error(error, "{what the?! cant get my tickets}");
       }
     }
     onMounted(() => {
