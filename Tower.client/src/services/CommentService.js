@@ -1,6 +1,7 @@
 import { AppState } from "../AppState"
 import { logger } from "../utils/Logger"
 import { api } from "./AxiosService"
+import { Comment } from "../models/Comment"
 
 class CommentService {
 
@@ -14,6 +15,7 @@ class CommentService {
         AppState.comments = []
         const res = await api.get('api/events/' + eventId + '/comments')
         logger.log('[Getting comments by event]', res.data)
+
         AppState.comments = res.data.map(c => new Comment(c))
     }
 

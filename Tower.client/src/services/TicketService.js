@@ -17,6 +17,7 @@ class TicketService {
         AppState.tickets.push(new Ticket(res.data))
         AppState.myTicket.push(new Event(res.data.event))
         AppState.event.capacity--
+
     }
 
     async removeTicket(myTicket) {

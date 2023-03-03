@@ -4,9 +4,9 @@ export class Comment {
     constructor(data) {
         this.eventId = data.eventId
         this.body = data.body
-        super(data.profile)
+        // super(data.profile)
         this.id = data.id
-        this.picture = data.picture
-        this.name = data.name
+        this.picture = data.creator.picture
+        this.name = data.creator.name
     }
 }

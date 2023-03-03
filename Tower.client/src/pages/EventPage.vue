@@ -56,6 +56,7 @@
         </div>
         <div class="col4"></div>
       </div>
+
       <div class="row">
         <div class="col-2"></div>
         <div v-for="c in comments" class="col-8">
