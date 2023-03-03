@@ -29,7 +29,7 @@
               <b class="ms-2" v-if="event.capacity > 0">{{ event.capacity }}</b>
               <b class="ms-2" v-else="event.capacity <= 0">SOLD OUT</b>
             </div>
-            <div class="col-2">
+            <div v-if="event.capacity > 0" class="col-2">
               <button v-if="!myTicket && !event.isCanceled" @click="createTicket()"
                 class="btn btn-warning mdi mdi-human text-center">
                 Attend
@@ -39,6 +39,7 @@
                 Leave
               </button>
             </div>
+            <div v-else="event.capacity <= 0">SoldOut</div>
           </div>
         </div>
       </div>
@@ -76,7 +77,7 @@
             <div class="card-body elevation-5 text-dark d-flex">
               <div class="col-1 justify-content-end">
                 <button @click="deleteComment(c.id)" v-if="account.id == c.creatorId" class="btn btn-danger-outline">
-                  <h5 class="mdi mdi-delete-variant"></h5>
+                  <h5 class="mdi mdi-delete-variant" aria-label="deleteComment"></h5>
                 </button>
               </div>
               <div class="row">
@@ -84,6 +85,7 @@
                   <img :src="c.picture" alt="" :title="c.name">
                 </div>
               </div>
+              <p>{{ c.name }}</p>
               <p class="ms-3"> {{ c.body }}</p>
             </div>
 

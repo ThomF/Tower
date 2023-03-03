@@ -26,9 +26,11 @@ class EventsService {
         return event
     }
 
-    async editEvent(eventId, eventData) {
+    async editEvent(eventId, eventData, userId) {
         const foundEvent = await this.getEventById(eventId)
-        const foundUser = await this.getEventById()
+        if (userId !== foundEvent.creatorId) {
+            throw new Forbidden
+        }
         foundEvent.description = eventData.description || foundEvent.description
         foundEvent.name = eventData.name || foundEvent.name
 
@@ -38,6 +40,8 @@ class EventsService {
 
         await foundEvent.save()
         return foundEvent
+
+
     }
 
     async cancelEvent(eventId, requestId) {
