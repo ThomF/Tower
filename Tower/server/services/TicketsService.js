@@ -28,19 +28,27 @@ class TicketsService {
         if (event.isCanceled) {
             throw new Forbidden('Event Is Canceled')
         }
+        if (event.capacity > 0) {
+            const ticket = await dbContext.Tickets.create(ticketData)
+            await ticket.populate('profile', 'name picture')
+            await ticket.populate({
+                path: 'event',
+                populate: {
+                    path: 'creator tickets',
+                    select: 'name picture'
+                }
+            })
 
-        const ticket = await dbContext.Tickets.create(ticketData)
-        await ticket.populate('profile', 'name picture')
-        await ticket.populate({
-            path: 'event',
-            populate: {
-                path: 'creator tickets',
-                select: 'name picture'
-            }
-        })
-        event.capacity--
-        await event.save()
-        return ticket
+            event.capacity--
+            await event.save()
+            return ticket
+
+        } else if (event.capacity <= 0) {
+
+            throw new BadRequest
+
+        }
+
     }
 
     async deleteTicket(ticketId, requestorId) {

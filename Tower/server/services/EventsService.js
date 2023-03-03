@@ -28,7 +28,7 @@ class EventsService {
 
     async editEvent(eventId, eventData) {
         const foundEvent = await this.getEventById(eventId)
-
+        const foundUser = await this.getEventById()
         foundEvent.description = eventData.description || foundEvent.description
         foundEvent.name = eventData.name || foundEvent.name
 
