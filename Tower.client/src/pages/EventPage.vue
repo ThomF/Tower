@@ -75,7 +75,6 @@
           <div class="card my-2">
             <div class="card-body elevation-5 text-dark d-flex">
               <div class="col-1 justify-content-end">
-                <!-- FIXME delete == v-if="comments.id == c.id"-->
                 <button @click="deleteComment(c.id)" v-if="account.id == c.creatorId" class="btn btn-danger-outline">
                   <h5 class="mdi mdi-delete-variant"></h5>
                 </button>
@@ -194,6 +193,7 @@ export default {
           const commentData = editable.value
           commentData.eventId = route.params.eventId
           await commentService.createComment(commentData)
+          editable.value = {}
         } catch (error) {
           logger.error(error)
           Pop.error(error.message)
