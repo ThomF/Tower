@@ -2,18 +2,27 @@
   <div v-if="event">
     <div class="container-fluid">
       <!-- FIXME DATE DATE DATE -->
-      <!-- <div class="row">
+      <div class="row" :v-if="event.isCanceled">
         <div class="div">
-          <h1 class="bg-danger" :v-if="event.isCanceled">CANCELED</h1>
+          <h1 class="bg-danger">CANCELED</h1>
         </div>
-      </div> -->
+      </div>
       <div class="row d-flex backgroundCover">
         <div class="col-4">
           <img class="img-fluid" :src="event.coverImg" alt="">
         </div>
         <div class="col-8">
-          <h1>{{ event.name }} -- {{ event.type }}</h1>
-          <p>{{ event.description }}</p>
+          <div class="row">
+            <div class="col-10">
+              <h4>{{ event.type }}</h4>
+              <h1>{{ event.name }}</h1>
+              <b>{{ event.location }}</b>
+            </div>
+            <div class="col-2">
+              {{ event.startDate }}
+            </div>
+          </div>
+          <p class="mt-3">{{ event.description }}</p>
           <div class="row">
             <div class="col-10 d-flex">
               <h6>Capacity</h6>
@@ -33,10 +42,13 @@
         </div>
       </div>
       <!-- NOTE images of people attending -->
-      <div class="row">
+      <div class="row mt-2">
         <div class="col-12">
-          <div v-for="t in ticket" class="border rounded my-3">
-            <img class="img-fluid round-img" :src="t.picture" :alt="t.name" :title="t.name">
+          <h3>See Who is Attending!</h3>
+          <div class="border rounded my-3 d-flex">
+            <div v-for="t in ticket">
+              <img class="img-fluid round-img" :src="t.picture" :alt="t.name" :title="t.name">
+            </div>
           </div>
         </div>
       </div>
@@ -171,6 +183,7 @@ export default {
 
       async createComment() {
         try {
+
           const commentData = editable.value
           commentData.eventId = route.params.eventId
           await commentService.createComment(commentData)
