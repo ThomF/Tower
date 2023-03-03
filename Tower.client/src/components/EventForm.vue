@@ -59,6 +59,7 @@ import { ref } from 'vue';
 import { logger } from '../utils/Logger.js';
 import Pop from '../utils/Pop.js';
 import { eventsService } from '../services/EventsService.js'
+import { router } from '../router';
 
 export default {
     setup() {
@@ -70,7 +71,10 @@ export default {
             async createEvent() {
                 try {
                     const formData = editable.value
-                    await eventsService.createEvent(formData)
+                    const eventId = await eventsService.createEvent(formData)
+                    if (eventId) {
+                        router.push({ name: 'Event', params: { eventId: eventId } })
+                    }
                 } catch (error) {
                     logger.error(error)
                     Pop.error(error.message)

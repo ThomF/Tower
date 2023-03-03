@@ -10,6 +10,8 @@ class EventsService {
     async createEvent(formData) {
         const res = await api.post('api/events', formData)
         logger.log('creating new event', res.data)
+        const eventId = res.data.id
+        return eventId
     }
 
     async getAllEvents() {

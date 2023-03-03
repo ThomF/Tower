@@ -13,15 +13,15 @@
     <div class="row">
       <div class="col-3" v-for="t in myTicket">
         <router-link class="text-dark selectable" :to="{ name: 'Event', params: { eventId: t.eventId } }">
-          <div class="bg-dark border rounded mt-3">
-            <img :src="t.event.coverImg" alt="{{ t.event.name }}">
+          <div class="bg-dark border rounded mt-3 d-flex">
+            <img class="biggie img-fluid" :src="t.event.coverImg" alt="{{ t.event.name }}">
             <div class="card-body">
               <h6>{{ t.event.name }}</h6>
-              <p>{{ t.event.description }}</p>
               <span> Capacity {{ t.event.capacity }}</span>
             </div>
-            <div v-if="t.event.isCanceled" class="bg-danger rounded">CANCELED</div>
           </div>
+          <div v-if="t.event.isCanceled" class="bg-danger rounded">CANCELED</div>
+
         </router-link>
       </div>
     </div>
@@ -61,5 +61,9 @@ export default {
 <style scoped>
 img {
   max-width: 100px;
+}
+
+.biggie {
+  height: 200px;
 }
 </style>

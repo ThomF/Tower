@@ -1,6 +1,6 @@
 <template>
     <router-link class="text-dark selectable" :to="{ name: 'Event', params: { eventId: event.id } }">
-        <div class="card">
+        <div class="card viewheight-card">
             <img :src="event.coverImg" alt="{{ event.name }}">
             <div class="card-body">
                 <h6>{{ event.name }}</h6>
@@ -31,4 +31,8 @@ export default {
 </script>
 
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.viewheight-card {
+    height: 65vh;
+}
+</style>

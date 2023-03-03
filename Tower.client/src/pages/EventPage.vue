@@ -35,8 +35,8 @@
       <!-- NOTE images of people attending -->
       <div class="row">
         <div class="col-12">
-          <div v-for="t in ticket">
-            <img class="img-fluid" :src="t.picture" :alt="t.name" :title="t.name">
+          <div v-for="t in ticket" class="border rounded my-3">
+            <img class="img-fluid round-img" :src="t.picture" :alt="t.name" :title="t.name">
           </div>
         </div>
       </div>
@@ -58,14 +58,17 @@
       </div>
 
       <div class="row">
-        <div class="col-2"></div>
-        <div v-for="c in comments" class="col-8">
+        <div v-for="c in comments" class="col-12">
           <div class="card my-2">
             <div class="card-body elevation-5 text-dark d-flex">
-              <p>Comment</p>
-              <img :src="c.picture" alt="">
-              <p> {{ c.body }}</p>
+              <div class="row">
+                <div class="col-2">
+                  <img :src="c.picture" alt="" :title="c.name">
+                </div>
+              </div>
+              <p class="ms-3"> {{ c.body }}</p>
             </div>
+
           </div>
         </div>
       </div>
@@ -187,5 +190,11 @@ export default {
   background: inherit;
   backdrop-filter: blur(80px);
   /* margin: 100px; */
+}
+
+.round-img {
+  height: 75px;
+  border-radius: 50%;
+  padding: 5px;
 }
 </style>

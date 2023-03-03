@@ -8,19 +8,19 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-12">
-        <div class="bg-primary rounded justify-content-around">
+
+      <div class="">
+        <div class="rounded justify-content-around text-center w-bav">
           <button @click="changeFilter('')" class="btn btn-outline">All</button>
           <button @click="changeFilter('convention')" class="btn btn-outline">Convention</button>
           <button @click="changeFilter('concert')" class="btn btn-outline">Concert</button>
           <button @click="changeFilter('sport')" class="btn btn-outline">sport</button>
           <button @click="changeFilter('digital')" class="btn btn-outline">Digital</button>
-
         </div>
       </div>
     </div>
     <div class="row">
-      <div class="col-3" v-for="e in events">
+      <div class="col-3 mt-2" v-for="e in events">
         <Event :event="e" />
 
       </div>
@@ -81,5 +81,16 @@ export default {
 
   background-image: url("https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80");
   object-fit: cover;
+}
+
+.w-bav {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 2px solid rgb(0, 0, 0);
+  background-color: #79E7AB;
+}
+
+.height-event {
+  height: 20vh;
 }
 </style>
