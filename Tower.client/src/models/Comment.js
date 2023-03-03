@@ -8,5 +8,6 @@ export class Comment {
         this.id = data.id
         this.picture = data.creator.picture
         this.name = data.creator.name
+        this.creatorId = data.creatorId
     }
 }

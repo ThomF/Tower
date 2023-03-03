@@ -9,24 +9,27 @@ class TicketService {
     async getTicketHolders(eventId) {
         const res = await api.get(`api/events/${eventId}/tickets`)
         logger.log('[getting ticket holders]', res.data)
-        AppState.tickets = res.data.map(t => new Ticket(t))
+        AppState.tickets = res.data
     }
     async createTicket(eventData) {
         const res = await api.post('api/tickets', eventData)
         logger.log('[Getting Ticket for Event!]', res.data)
         AppState.tickets.push(res.data)
         // NOTE new event ===ask===
-        AppState.myTicket.push(new Event(res.data))
-        AppState.event.capacity--
+        const foundEvent = AppState.event
+        AppState.myTicket.push(foundEvent)
+        foundEvent.capacity--
 
     }
 
-    async removeTicket(myTicket) {
-        const res = await api.delete(`api/tickets/${myTicket}`)
+    async removeTicket(ticketId) {
+        logger.log(ticketId)
+        const res = await api.delete(`api/tickets/${ticketId}`)
         logger.log('[Cancelling myTicket]', res.data)
-        const ticketIndex = AppState.myTicket.findIndex(c => c.eventId == myTicket)
-        if (eventId !== -1) {
-            AppState.myTicket.splice(ticketIndex, 1)
+        const ticketIndex = AppState.tickets.findIndex(c => c.id == ticketId)
+        logger.log(ticketIndex)
+        if (ticketIndex !== -1) {
+            AppState.tickets.splice(ticketIndex, 1)
         }
     }
 

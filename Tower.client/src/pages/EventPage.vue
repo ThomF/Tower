@@ -30,11 +30,11 @@
               <b class="ms-2" v-else="event.capacity <= 0">SOLD OUT</b>
             </div>
             <div class="col-2">
-              <button v-if="!myTicket || event.isCanceled == true" @click="createTicket()"
+              <button v-if="!myTicket && !event.isCanceled" @click="createTicket()"
                 class="btn btn-warning mdi mdi-human text-center">
                 Attend
               </button>
-              <button v-if="myTicket" @click="removeTicket(myTicket.creatorId)"
+              <button v-if="myTicket" @click="removeTicket(myTicket.id)"
                 class="btn btn-warning mdi mdi-human text-center">
                 Leave
               </button>
@@ -48,7 +48,7 @@
           <h3>See Who is Attending!</h3>
           <div class="border rounded my-3 d-flex">
             <div v-for="t in ticket">
-              <img class="img-fluid round-img" :src="t.picture" :alt="t.name" :title="t.name">
+              <img class="img-fluid round-img" :src="t.profile.picture" :alt="t.name" :title="t.profile.name">
             </div>
           </div>
         </div>
@@ -75,7 +75,8 @@
           <div class="card my-2">
             <div class="card-body elevation-5 text-dark d-flex">
               <div class="col-1 justify-content-end">
-                <button @click="deleteComment(c.id)" v-if="creatorId == c.id" class="btn btn-danger-outline">
+                <!-- FIXME delete == v-if="comments.id == c.id"-->
+                <button @click="deleteComment(c.id)" v-if="account.id == c.creatorId" class="btn btn-danger-outline">
                   <h5 class="mdi mdi-delete-variant"></h5>
                 </button>
               </div>
@@ -165,7 +166,7 @@ export default {
       ticket: computed(() => AppState.tickets),
       account: computed(() => AppState.account),
       comments: computed(() => AppState.comments),
-      myTicket: computed(() => AppState.tickets.find(t => t.eventId == AppState.event.id)),
+      myTicket: computed(() => AppState.tickets.find(t => t.accountId == AppState.account.id)),
 
 
       async createTicket() {
@@ -176,10 +177,10 @@ export default {
           Pop.error(error.message)
         }
       },
-      async removeTicket(myTicket) {
+      async removeTicket(ticketId) {
         try {
           if (await Pop.confirm('Are You Sure You Want To Cancel Your Ticket?')) {
-            await ticketService.removeTicket(myTicket)
+            await ticketService.removeTicket(ticketId)
           }
         } catch (error) {
           Pop.error(error.message)
