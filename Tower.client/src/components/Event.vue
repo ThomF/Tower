@@ -7,12 +7,15 @@
                 <p>{{ event.description }}</p>
                 <span>{{ event.capacity }}</span>
             </div>
+            <div v-if="event.isCanceled" class="bg-danger rounded">CANCELED</div>
         </div>
     </router-link>
 </template>
 
 
 <script>
+import { computed } from 'vue';
+import { AppState } from '../AppState';
 import { Event } from '../models/Event.js'
 
 export default {
@@ -20,7 +23,9 @@ export default {
         event: { type: Event, required: true }
     },
     setup() {
-        return {};
+        return {
+            // event: computed(() => AppState.event)
+        };
     },
 }
 </script>

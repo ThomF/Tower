@@ -3,6 +3,7 @@ export class Ticket extends Profile {
     constructor(data) {
         super(data.profile)
         this.id = data.id
+        this.eventId = data.eventId
 
     }
 }

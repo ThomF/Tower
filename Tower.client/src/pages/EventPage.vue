@@ -15,9 +15,12 @@
               <b class="ms-2">{{ event.capacity }}</b>
             </div>
             <div class="col-2">
-              <button @click="createTicket()" v-if="!myEvents" :disabled="event.isCanceled"
+              <button v-if="!myTicket || event.isCanceled == true" @click="createTicket()"
                 class="btn btn-warning mdi mdi-human text-center">
                 Attend
+              </button>
+              <button v-if="myTicket" @click="createTicket()" class="btn btn-warning mdi mdi-human text-center">
+                Leave
               </button>
             </div>
           </div>
@@ -80,11 +83,12 @@ export default {
     })
 
     return {
+      route,
       event: computed(() => AppState.event),
       ticket: computed(() => AppState.tickets),
       account: computed(() => AppState.account),
       comments: computed(() => AppState.comments),
-      myEvents: computed(() => AppState.myEvents),
+      myTicket: computed(() => AppState.tickets.find(t => t.eventId == AppState.event.id)),
 
 
       async createTicket() {
