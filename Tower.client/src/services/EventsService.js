@@ -16,18 +16,18 @@ class EventsService {
 
     async getAllEvents() {
         const res = await api.get('api/events')
-        console.log(res.data)
+        logger.log(res.data)
         const events = res.data.map(e => new Event(e))
-        console.log('EVENTS', events);
+        logger.log('EVENTS', events);
         AppState.events = events
     }
     async getMyTickets() {
         const res = await api.get('account/tickets')
-        // console.log("TICKETS_TICKETS_TICKETS", res.data)
+        // logger.log("TICKETS_TICKETS_TICKETS", res.data)
         // AppState.myTicket = res.data.map(t => new ticketEvent(t))
         AppState.myTicket = res.data
 
-        console.log("APPSTATE TICKETS", AppState.myTicket);
+        logger.log("APPSTATE TICKETS", AppState.myTicket);
     }
 
     async getEventById(eventId) {
